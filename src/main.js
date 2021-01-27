@@ -11,13 +11,18 @@ function run(){
         let taskDate = clearDate (new Date());
         let taskPriority = document.getElementById("priority-selector").selectedOptions[0].value;
         let taskText = `${taskPriority} ${taskDate} ${inputVal}`;
-        console.log(taskText)
-        taskArr.push(item);
+        taskArr.push(taskText);
         input.value = '';
         let task = document.createElement("div");
-        task.textContent = item;
-        viewSection.appendChild(task);
+        task.textContent = taskText;
+        viewSection.append(task);
+        counter ++;
     })
+
+
+
+
+
     function clearDate(date){
         return `${date.getDate()}/0${date.getMonth()+1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
     }
