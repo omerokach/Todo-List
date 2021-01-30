@@ -24,6 +24,9 @@ reset.addEventListener("click", doReset);
 // the add event function ,add and updating the local storage the counter and tasks 
 async function doAdd(){
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
+    let check = document.createElement("input");
+    check.setAttribute("type","checkbox");
+    check.classList.add("checkbox");
     let container = document.createElement("div");
     container.classList.add("todo-container");
     let taskText = document.createElement("div");
@@ -35,19 +38,16 @@ async function doAdd(){
     taskObj.text = input.value;
     taskText.textContent = ' ' + input.value;
     input.value = '';
-    // let removeButton = document.createElement("button");
-    // removeButton.classList.add("remove");
-    // removeButton.textContent = "remove task";
     taskObj.date = clearDate (new Date());
     taskDate.textContent = ' ' + clearDate (new Date());
     taskObj.priority = document.getElementById("priority-selector").selectedOptions[0].value;
     taskPriority.textContent = ' ' + document.getElementById("priority-selector").selectedOptions[0].value;
+    container.append(check)
     container.append(taskPriority);
     container.append(taskDate);
     container.append(taskText);
     taskArr.push(taskObj);
     viewSection.append(container);
-    // container.append(removeButton);
     count ++;
     storageCounter = count;
     counter.textContent =  count;
@@ -96,6 +96,8 @@ function doSort(){
 }
 // the reset function
 async function doReset(){
+    confirm("are you sure you want to reset all?")
+    if(confirm){
     let todoList =  [];
     // let stringifyTodo = JSON.stringify(todoList);
     count = 0;
@@ -108,17 +110,20 @@ async function doReset(){
     counter.textContent = taskArr.length;
     localStorage.setItem("omer", []);
     localStorage.setItem("counter", count)
+    }
 }
 // giving a nice and clear time and day
 function clearDate(date){
     let newDate = (date.toISOString()).split(".")[0];
     return newDate.split("T")[0] + " " + newDate.split("T")[1]; 
 }
-//adding item by using enter key
-//printing the tasks from the local storage
+//printing the tasks from the local storage/json BIN
 function printArr(arr){
     for(let i=0; i<arr.length; i++){
-        let taskObj = {inputVal:'' ,taskDate:'' ,taskPriority:'' ,};
+        let check = document.createElement("input");
+        check.setAttribute("type","checkbox");
+        check.classList.add("checkbox");
+        let taskObj = {inputVal:'' ,taskDate:'' ,taskPriority:'' ,};   
         let container = document.createElement("div");
         container.classList.add("todo-container");
         let taskText = document.createElement("div");
@@ -133,6 +138,7 @@ function printArr(arr){
         taskDate.textContent = ' ' + arr[i].date;
         taskObj.priority = arr[i].priority;
         taskPriority.textContent = ' ' + arr[i].priority;
+        container.append(check);
         container.append(taskPriority);
         container.append(taskDate);
         container.append(taskText);

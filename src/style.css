@@ -1,7 +1,13 @@
+*{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    background-color: 	rgb(248,248,255);
+}
 #flex-container{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 50vw;
     height: 70vh;
     margin-left: 20%;
     margin-right: 20%;
@@ -16,6 +22,11 @@
     border-radius: 0.5em;
     margin-left: 2em;
     margin-right: 2em;
+    decoration: underline;
+}
+.todo-container:hover{
+    margin-left: 1.8em;
+    margin-right: 1.8em;
 }
 div{
     margin: 10px;
@@ -33,4 +44,12 @@ align-self: center;
 }
 #reset-button:hover{
     background-color:rgb(238, 110, 110);
+}
+.checkbox{
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 4vh;
+  width: 4vw;
+  background-color: #eee;
 }
