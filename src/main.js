@@ -16,7 +16,7 @@ const reset = document.getElementById("reset-button");
 let taskArr = [];
 let storageCounter;
 count = localStorage.getItem("counter");
-// adding the add event to add and sort button
+// adding the add events to the buttons
 add.addEventListener("click", doAdd);
 sort.addEventListener("click", doSort);
 reset.addEventListener("click", doReset);
@@ -59,11 +59,11 @@ async function doAdd(){
 }
 //adding enter key
 input.addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("add-button").click();
-    }
-});
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("add-button").click();
+        }
+    });
 //the sort function
 function doSort(){
     let viewSection = document.querySelector(".viewSection"); 
@@ -77,6 +77,9 @@ function doSort(){
     }
     newArr.sort(function(x, y) { return y[0] - x[0] ; });
     for (let i=0; i<newArr.length; i++) {
+        let check = document.createElement("input");
+        check.setAttribute("type","checkbox");
+        check.classList.add("checkbox");
         let container = document.createElement("div");
         container.classList.add("todo-container");
         let taskText = document.createElement("div");
@@ -88,6 +91,7 @@ function doSort(){
         taskPriority.textContent = newArr[i][1].priority;
         taskDate.textContent = ' ' + newArr[i][1].date;
         taskText.textContent = ' ' + newArr[i][1].text;
+        container.append(check);
         container.append(taskPriority);
         container.append(taskDate);
         container.append(taskText);
@@ -96,10 +100,9 @@ function doSort(){
 }
 // the reset function
 async function doReset(){
-    confirm("are you sure you want to reset all?")
-    if(confirm){
+    let answer = confirm("are you sure you want to reset all?")
+    if(answer){
     let todoList =  [];
-    // let stringifyTodo = JSON.stringify(todoList);
     count = 0;
     let viewSection = document.querySelector(".viewSection"); 
     while (viewSection.firstChild) {
