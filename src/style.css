@@ -1,3 +1,36 @@
+#flex-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 70%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+    background-color: rgb(123,220,118);
+    border-radius: 2em;
+}
 .todo-container{
-
+    display: flex;
+    background-color:rgb(240,255,239,70%);
+    border: solid lightgray 1px;
+    border-radius: 0.5em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+div{
+    margin: 10px;
+    
+}
+.controlSection{
+align-self: center;
+}
+.viewSection{
+    align-items: center;
+}
+#reset-button{
+    width: 20%;
+    align-self:center;
+}
+#reset-button:hover{
+    background-color:rgb(238, 110, 110);
 }
