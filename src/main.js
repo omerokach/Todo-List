@@ -84,6 +84,10 @@ function doSort(){
     }
     newArr.sort(function(x, y) { return y[0] - x[0] ; });
     for (let i=0; i<newArr.length; i++) {
+        const remove = document.createElement("button");
+        remove.classList.add("remove");
+        remove.addEventListener("click", doRemove);
+        remove.textContent = "remove";
         let check = document.createElement("input");
         check.setAttribute("type","checkbox");
         check.classList.add("checkbox");
@@ -102,7 +106,9 @@ function doSort(){
         container.append(taskPriority);
         container.append(taskDate);
         container.append(taskText);
+        container.append(remove);
         viewSection.appendChild(container);
+        counter.textContent = localStorage.getItem("counter");
     }   
 }
 // the reset function
