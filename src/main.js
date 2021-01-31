@@ -26,7 +26,11 @@ reset.addEventListener("click", doReset);
 // the add event function ,add and updating the local storage the counter and tasks 
 async function doAdd(){
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
-    let check = document.createElement("input");
+    const remove = document.createElement("button");
+    remove.classList.add("remove");
+    remove.addEventListener("click", doRemove);
+    remove.textContent = "remove";
+    const check = document.createElement("input");
     check.setAttribute("type","checkbox");
     check.classList.add("checkbox");
     let container = document.createElement("div");
@@ -48,6 +52,7 @@ async function doAdd(){
     container.append(taskPriority);
     container.append(taskDate);
     container.append(taskText);
+    container.append(remove);
     taskArr.push(taskObj);
     viewSection.append(container);
     count ++;
@@ -126,12 +131,15 @@ function clearDate(date){
 function printArr(arr){
     for(let i=0; i<arr.length; i++){
         let check = document.createElement("input");
+        const remove = document.createElement("button");
+        remove.classList.add("remove");
+        remove.addEventListener("click", doRemove);
+        remove.textContent = "remove";
         check.setAttribute("type","checkbox");
         check.classList.add("checkbox");
         let taskObj = {inputVal:'' ,taskDate:'' ,taskPriority:'' ,};   
         let container = document.createElement("div");
         container.classList.add("todo-container");
-        container.classList.add("draggable");
         let taskText = document.createElement("div");
         taskText.classList.add("todo-text");
         let taskDate = document.createElement("div");
@@ -148,6 +156,7 @@ function printArr(arr){
         container.append(taskPriority);
         container.append(taskDate);
         container.append(taskText);
+        container.append(remove);
         taskArr.push(taskObj);
         counter.textContent = localStorage.getItem("counter");
         viewSection.append(container);
@@ -166,7 +175,7 @@ async function updateBin(arr){
     })
     console.log("the put arr:", res);
 }
-
+//printing on load 
 async function printLoad(){
     localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
     const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
@@ -179,9 +188,21 @@ async function printLoad(){
     console.log("binArr: ", binArr.record["my-todo"]);
     printArr(binArr.record["my-todo"]);
 }
+//the spinner load func
 function showSpinner() {
   loader.style.visibility = "visible";
   setTimeout(() => {
     loader.style.visibility = loader.style.visibility.replace("visible", "hidden");
   }, 1500);
 }
+//remove function
+function doRemove(e) {
+  let answer = confirm("Are you sure you want to remove this task?");
+  if (answer === true) {
+    e.target.parentElement.remove();
+    count--;
+    storageCounter = count;
+    counter.textContent =  count;
+  }
+  return;
+};
