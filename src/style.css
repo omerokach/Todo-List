@@ -34,18 +34,9 @@ body{
     margin-right: 1.8em;
     position: relative;
 }
-.todo-created-at{
+.todo-created-at, .todo-text, .checkbox, .todo-priority{
     margin-left: 10px;
     
-}
-.todo-text{
-    margin-left: 10px;
-}
-.checkbox{
-    margin-left: 10px;
-}
-.todo-priority{
-    margin-left: 10px;
 }
 .controlSection{
 align-self: center;
