@@ -57,7 +57,7 @@ async function doAdd(){
     viewSection.append(container);
     count ++;
     storageCounter = count;
-    counter.textContent =  count;
+    counter.textContent =  storageCounter;
     stringifiedTaskArr = JSON.stringify(taskArr);
     localStorage.setItem("omer", stringifiedTaskArr);
     localStorage.setItem("counter", storageCounter)
@@ -158,7 +158,8 @@ function printArr(arr){
         container.append(taskText);
         container.append(remove);
         taskArr.push(taskObj);
-        counter.textContent = localStorage.getItem("counter");
+        localStorage.setItem("counter", taskArr.length);
+        counter.textContent = taskArr.length;
         viewSection.append(container);
     }
 }
@@ -200,9 +201,10 @@ function doRemove(e) {
   let answer = confirm("Are you sure you want to remove this task?");
   if (answer === true) {
     e.target.parentElement.remove();
+    let count = localStorage.getItem("counter");
     count--;
-    storageCounter = count;
-    counter.textContent =  count;
+    localStorage.setItem ("counter", count);
+    counter.textContent =  localStorage.getItem("counter");
   }
   return;
 };
