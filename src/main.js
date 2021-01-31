@@ -1,5 +1,6 @@
 // when refresh it take the info from the local storage
 window.addEventListener("DOMContentLoaded", async (e) =>{
+    showSpinner()
     await printLoad();
 });
 //
@@ -13,6 +14,7 @@ const input = document.getElementById("text-input");
 const add = document.getElementById("add-button");
 const sort = document.getElementById("sort-button");
 const reset = document.getElementById("reset-button");
+const spinner = document.getElementById("loader");
 let taskArr = [];
 let storageCounter;
 count = localStorage.getItem("counter");
@@ -165,14 +167,20 @@ async function updateBin(arr){
 }
 
 async function printLoad(){
-    localStorage.setItem("binID" , '601414a21de5467ca6bdd720')
+    localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
     const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
       method: 'GET',
       headers: {
         "Content-Type": "application/json" 
       },  
-    })
+    } )
     binArr = await getRes.json();
     console.log("binArr: ", binArr.record["my-todo"]);
     printArr(binArr.record["my-todo"]);
+}
+function showSpinner() {
+  loader.style.visibility = "visible";
+  setTimeout(() => {
+    loader.style.visibility = loader.style.visibility.replace("visible", "hidden");
+  }, 1500);
 }
