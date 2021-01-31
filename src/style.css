@@ -1,5 +1,6 @@
 *{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.3vw;
 }
 body{
     background-color: 	rgb(248,248,255);
@@ -26,24 +27,36 @@ body{
     margin-left: 2em;
     margin-right: 2em;
     decoration: underline;
+    margin-bottom: 2.7vh;
 }
 .todo-container:hover{
     margin-left: 1.8em;
     margin-right: 1.8em;
+    position: relative;
 }
-div{
-    margin: 10px;
+.todo-created-at{
+    margin-left: 10px;
     
+}
+.todo-text{
+    margin-left: 10px;
+}
+.checkbox{
+    margin-left: 10px;
+}
+.todo-priority{
+    margin-left: 10px;
 }
 .controlSection{
 align-self: center;
+margin-bottom: 1vh;
 }
 .viewSection{
     align-items: center;
 }
 #reset-button{
     width: 20%;
-    align-self:center;
+    align-self: center;
 }
 #reset-button:hover{
     background-color:rgb(238, 110, 110);
@@ -76,3 +89,7 @@ align-self: center;
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  .draggable {
+    cursor: move;
+    user-select: none;
+}

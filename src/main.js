@@ -131,6 +131,7 @@ function printArr(arr){
         let taskObj = {inputVal:'' ,taskDate:'' ,taskPriority:'' ,};   
         let container = document.createElement("div");
         container.classList.add("todo-container");
+        container.classList.add("draggable");
         let taskText = document.createElement("div");
         taskText.classList.add("todo-text");
         let taskDate = document.createElement("div");
