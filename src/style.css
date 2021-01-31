@@ -38,13 +38,10 @@ body{
     margin-left: 1vw;
     padding-top: 1vh;
     padding-bottom: 1.2vh;
-    display: flex;
-    justify-content: space-between;
-    
 }
 .remove{
     margin-left: 8vw;
-    justify-self: flex-end;
+    float: right;
 }
 .controlSection{
     align-self: center;

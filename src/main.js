@@ -55,8 +55,8 @@ async function doAdd(){
     container.append(remove);
     taskArr.push(taskObj);
     viewSection.append(container);
-    count ++;
-    storageCounter = count;
+    storageCounter = localStorage.getItem("counter");
+    storageCounter++;
     counter.textContent =  storageCounter;
     stringifiedTaskArr = JSON.stringify(taskArr);
     localStorage.setItem("omer", stringifiedTaskArr);
