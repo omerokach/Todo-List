@@ -9,6 +9,7 @@
    - undo
    - priority 
    - reset.
+   - checkbox
 
 ![Scale-Up Velocity](./readme-files/todo-List.gif)
 
