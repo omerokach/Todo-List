@@ -1,6 +1,6 @@
 // when refresh it take the info from the local storage
 window.addEventListener("DOMContentLoaded", async (e) =>{
-    showSpinner()
+    showSpinner();
     await printLoad();
 });
 //
@@ -15,6 +15,7 @@ const add = document.getElementById("add-button");
 const sort = document.getElementById("sort-button");
 const reset = document.getElementById("reset-button");
 const spinner = document.getElementById("loader");
+const undoButton = document.getElementById("undo-button");
 let taskArr = [];
 let storageCounter;
 count = localStorage.getItem("counter");
@@ -22,6 +23,7 @@ count = localStorage.getItem("counter");
 add.addEventListener("click", doAdd);
 sort.addEventListener("click", doSort);
 reset.addEventListener("click", doReset);
+undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
 async function doAdd(){
@@ -42,13 +44,13 @@ async function doAdd(){
     let taskPriority = document.createElement("div");
     taskPriority.classList.add("todo-priority");
     taskObj.text = input.value;
-    taskText.textContent = ' ' + input.value;
+    taskText.textContent = input.value;
     input.value = '';
     taskObj.date = clearDate (new Date());
-    taskDate.textContent = ' ' + clearDate (new Date());
+    taskDate.textContent = clearDate (new Date());
     taskObj.priority = document.getElementById("priority-selector").selectedOptions[0].value;
-    taskPriority.textContent = ' ' + document.getElementById("priority-selector").selectedOptions[0].value;
-    container.append(check)
+    taskPriority.textContent = document.getElementById("priority-selector").selectedOptions[0].value;
+    container.append(check);
     container.append(taskPriority);
     container.append(taskDate);
     container.append(taskText);
@@ -60,9 +62,8 @@ async function doAdd(){
     counter.textContent =  storageCounter;
     stringifiedTaskArr = JSON.stringify(taskArr);
     localStorage.setItem("omer", stringifiedTaskArr);
-    localStorage.setItem("counter", storageCounter)
-    console.log("that stringified :" + stringifiedTaskArr);
-    updateBin(taskArr)
+    localStorage.setItem("counter", storageCounter);
+    updateBin(taskArr);
 }
 //adding enter key
 input.addEventListener("keyup", function (event) {
@@ -100,8 +101,8 @@ function doSort(){
         let taskPriority = document.createElement("div");
         taskPriority.classList.add("todo-priority");
         taskPriority.textContent = newArr[i][1].priority;
-        taskDate.textContent = ' ' + newArr[i][1].date;
-        taskText.textContent = ' ' + newArr[i][1].text;
+        taskDate.textContent = newArr[i][1].date;
+        taskText.textContent = newArr[i][1].text;
         container.append(check);
         container.append(taskPriority);
         container.append(taskDate);
@@ -113,7 +114,7 @@ function doSort(){
 }
 // the reset function
 async function doReset(){
-    let answer = confirm("are you sure you want to reset all?")
+    let answer = confirm("are you sure you want to reset all?");
     if(answer){
     let todoList =  [];
     count = 0;
@@ -125,7 +126,7 @@ async function doReset(){
     taskArr = [];
     counter.textContent = taskArr.length;
     localStorage.setItem("omer", []);
-    localStorage.setItem("counter", count)
+    localStorage.setItem("counter", count);
     }
 }
 // giving a nice and clear time and day
@@ -143,7 +144,7 @@ function printArr(arr){
         remove.textContent = "remove";
         check.setAttribute("type","checkbox");
         check.classList.add("checkbox");
-        let taskObj = {inputVal:'' ,taskDate:'' ,taskPriority:'' ,};   
+        let taskObj = {text:'' ,date:'' ,priority:'' ,};   
         let container = document.createElement("div");
         container.classList.add("todo-container");
         let taskText = document.createElement("div");
@@ -153,11 +154,11 @@ function printArr(arr){
         let taskPriority = document.createElement("div");
         taskPriority.classList.add("todo-priority");
         taskObj.text = arr[i].text;
-        taskText.textContent = ' ' + arr[i].text;
+        taskText.textContent = arr[i].text;
         taskObj.date = arr[i].date;
-        taskDate.textContent = ' ' + arr[i].date;
+        taskDate.textContent = arr[i].date;
         taskObj.priority = arr[i].priority;
-        taskPriority.textContent = ' ' + arr[i].priority;
+        taskPriority.textContent = arr[i].priority;
         container.append(check);
         container.append(taskPriority);
         container.append(taskDate);
@@ -211,6 +212,59 @@ function doRemove(e) {
     count--;
     localStorage.setItem ("counter", count);
     counter.textContent =  localStorage.getItem("counter");
+    let textOfRemoveTask = e.target.parentElement.querySelector(".todo-text").textContent;
+    removeThisTask(textOfRemoveTask);
   }
   return;
 };
+//remove the specific task by her text 
+function removeThisTask(text){
+    let lastRemove;
+    for(let i=0; i<taskArr.length; i++){
+        if(taskArr[i].text === text){
+            lastRemove = taskArr.splice(i, 1);
+            console.log("newArr:", taskArr);
+        }
+    }
+    localStorage.setItem("lastRemove", JSON.stringify(lastRemove));
+    updateBin(taskArr);
+}
+//undo function - takes the last item removed from the local storage
+function undo(){
+    let lastRemove = JSON.parse(localStorage.getItem("lastRemove"));
+    lastRemove = lastRemove[0];
+    taskArr.push(lastRemove);
+    const remove = document.createElement("button");
+    remove.classList.add("remove");
+    remove.addEventListener("click", doRemove);
+    remove.textContent = "remove";
+    const check = document.createElement("input");
+    check.setAttribute("type","checkbox");
+    check.classList.add("checkbox");
+    let container = document.createElement("div");
+    container.classList.add("todo-container");
+    let taskText = document.createElement("div");
+    taskText.classList.add("todo-text");
+    let taskDate = document.createElement("div");
+    taskDate.classList.add("todo-created-at");
+    let taskPriority = document.createElement("div");
+    taskPriority.classList.add("todo-priority");
+    taskText.textContent = lastRemove.text;
+    taskDate.textContent = lastRemove.date;
+    taskPriority.textContent = lastRemove.priority;
+    container.append(check);
+    container.append(taskPriority);
+    container.append(taskDate);
+    container.append(taskText);
+    container.append(remove);
+    viewSection.append(container);
+    storageCounter = localStorage.getItem("counter");
+    storageCounter++;
+    counter.textContent =  storageCounter;
+    stringifiedTaskArr = JSON.stringify(taskArr);
+    localStorage.setItem("omer", stringifiedTaskArr);
+    localStorage.setItem("counter", storageCounter);
+    console.log("that stringified :" + stringifiedTaskArr);
+    updateBin(taskArr);
+    localStorage.setItem("lastRemove" , "");
+}
