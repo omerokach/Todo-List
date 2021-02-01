@@ -1,10 +1,11 @@
 // when refresh it take the info from the local storage
 window.addEventListener("DOMContentLoaded", async (e) =>{
     showSpinner();
-    await printLoad();
+    // await printLoad();
+    ifHaveLocalBinId();
 });
 //
-
+let localBinId = localStorage.getItem("binID");
 let arrLocal = [];
 let stringifiedTaskArr;
 let viewSection = document.querySelector(".viewSection");
@@ -172,7 +173,7 @@ function printArr(arr){
 }
 // PUT fetch to the bin with the latest info
 async function updateBin(arr){
-    const res = await fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${localBinId}`,{
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
@@ -185,8 +186,8 @@ async function updateBin(arr){
 }
 //printing on load 
 async function printLoad(){
-    localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-    const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
+    // localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
+    const getRes = await fetch( `https://api.jsonbin.io/v3/b/${localStorage.getItem("binID")}/latest` ,{
       method: 'GET',
       headers: {
         "Content-Type": "application/json" 
@@ -267,4 +268,25 @@ function undo(){
     console.log("that stringified :" + stringifiedTaskArr);
     updateBin(taskArr);
     localStorage.setItem("lastRemove" , "");
+}
+async function ifHaveLocalBinId(){
+    let id = localStorage.getItem("binID");
+    if(!id){
+        localBinId = await postNew();
+        localStorage.setItem("binID", localBinId);
+    }else await printLoad();  
+}
+async function postNew(){
+    let arr = [];
+    const getRes = await fetch( `https://api.jsonbin.io/v3/b` ,{
+                method: 'POST',
+                headers: {
+                "Content-Type": "application/json", 
+                "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK",
+                "X-BIN-PRIVATE": false
+              },
+              body: JSON.stringify({"my-todo": arr})  
+            } )
+     let res = await getRes.json();    
+    return res.metadata.id;
 }
