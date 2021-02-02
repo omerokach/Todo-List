@@ -268,8 +268,4 @@ function undo(){
     console.log("that stringified :" + stringifiedTaskArr);
     updateBin(taskArr);
     localStorage.setItem("lastRemove" , "");
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c011ff66f0ee1d83ec3caccafe68dd75f64872b1
