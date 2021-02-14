@@ -1,7 +1,6 @@
   
 // when refresh it take the info from the local storage
 window.addEventListener("DOMContentLoaded", async (e) =>{
-    showSpinner();
     await printLoad();
 });
 //
@@ -186,6 +185,7 @@ async function updateBin(arr){
 }
 //printing on load 
 async function printLoad(){
+    showSpinner();
     localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
     const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
       method: 'GET',
@@ -196,6 +196,7 @@ async function printLoad(){
     binArr = await getRes.json();
     console.log("binArr: ", binArr.record["my-todo"]);
     printArr(binArr.record["my-todo"]);
+    showSpinner();
 }
 //the spinner load func
 function showSpinner() {
