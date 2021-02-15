@@ -1,6 +1,6 @@
   
 // when refresh it take the info from the local storage
-window.addEventListener("DOMContentLoaded", async (e) =>{
+window.addEventListener("DOMContentLoaded",(e) =>{
     printLoad();
 });
 //
@@ -26,7 +26,7 @@ reset.addEventListener("click", doReset);
 undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
-async function doAdd(){
+function doAdd(){
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
     const remove = document.createElement("button");
     remove.classList.add("remove");
@@ -113,7 +113,7 @@ function doSort(){
     }   
 }
 // the reset function
-async function doReset(){
+function doReset(){
     let answer = confirm("are you sure you want to reset all?");
     if(answer){
     let todoList =  [];
@@ -171,42 +171,45 @@ function printArr(arr){
     }
 }
 // PUT fetch to the bin with the latest info
-async function updateBin(arr){
-    showSpinner();
-    fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json",
-            "X-Bin-Versioning": true, 
-            "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
-        },
-        body: JSON.stringify({"my-todo": arr}),
-    }).then((res) => {
-        if(!res.ok)
-        throw new Error("the error is: ", res);
-        showSpinner();})
-        .catch((error) =>{
-        console.log("there was an error ", error);
-    });
-}
-//printing on load 
-function printLoad(){
-    showSpinner();
-    localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-    fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json" 
-      },  
-    } ).then((res) => { res.json().then((json) => {
-        printArr(json.record["my-todo"]);
-        showSpinner();
-    } ) } ).catch((error) =>{
-        console.log("the error is: ", error);
-    });;
-}
+// function updateBin(arr){
+//     showSpinner();
+//     fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
+//         method: 'PUT',
+//         headers: {
+//             "Content-Type": "application/json",
+//             "X-Bin-Versioning": true, 
+//             "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
+//         },
+//         body: JSON.stringify({"my-todo": arr}),
+//     }).then((res) => {
+//         if(!res.ok)
+//         throw new Error("the error is: ", res);
+//         showSpinner();})
+//         .catch((error) =>{
+//         console.log("there was an error ", error);
+//     });
+// }
+// //printing on load 
+// function printLoad(){
+//     showSpinner();
+//     localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
+//     fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
+//       method: 'GET',
+//       headers: {
+//         "Content-Type": "application/json" 
+//       },  
+//     } ).then((res) => { res.json().then((json) => {
+//         printArr(json.record["my-todo"]);
+//         showSpinner();
+//     } ) } ).catch((error) =>{
+//         console.log("the error is: ", error);
+//     });;
+// }
 //the spinner load func
 function showSpinner() {
+  if(loader.style.visibility === "visible"){
+    loader.style.visibility === "hidden"
+  }
   loader.style.visibility = "visible";
   setTimeout(() => {
     loader.style.visibility = loader.style.visibility.replace("visible", "hidden");
