@@ -1,7 +1,7 @@
   
 // when refresh it take the info from the local storage
-window.addEventListener("DOMContentLoaded", async (e) =>{
-    await printLoad();
+window.addEventListener("DOMContentLoaded",(e) =>{
+    printLoad();
 });
 //
 
@@ -26,7 +26,7 @@ reset.addEventListener("click", doReset);
 undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
-async function doAdd(){
+function doAdd(){
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
     const remove = document.createElement("button");
     remove.classList.add("remove");
@@ -113,7 +113,7 @@ function doSort(){
     }   
 }
 // the reset function
-async function doReset(){
+function doReset(){
     let answer = confirm("are you sure you want to reset all?");
     if(answer){
     let todoList =  [];
@@ -169,41 +169,6 @@ function printArr(arr){
         counter.textContent = taskArr.length;
         viewSection.append(container);
     }
-}
-// PUT fetch to the bin with the latest info
-async function updateBin(arr){
-    const res = await fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json",
-            "X-Bin-Versioning": true, 
-            "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
-        },
-        body: JSON.stringify({"my-todo": arr}),
-    })
-    console.log("the put arr:", res);
-}
-//printing on load 
-async function printLoad(){
-    showSpinner();
-    localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-    const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json" 
-      },  
-    } )
-    binArr = await getRes.json();
-    console.log("binArr: ", binArr.record["my-todo"]);
-    printArr(binArr.record["my-todo"]);
-    showSpinner();
-}
-//the spinner load func
-function showSpinner() {
-  loader.style.visibility = "visible";
-  setTimeout(() => {
-    loader.style.visibility = loader.style.visibility.replace("visible", "hidden");
-  }, 1500);
 }
 //remove function
 function doRemove(e) {
