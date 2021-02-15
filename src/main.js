@@ -1,7 +1,7 @@
   
 // when refresh it take the info from the local storage
 window.addEventListener("DOMContentLoaded", async (e) =>{
-    await printLoad();
+    printLoad();
 });
 //
 
@@ -172,7 +172,8 @@ function printArr(arr){
 }
 // PUT fetch to the bin with the latest info
 async function updateBin(arr){
-    const res = await fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
+    showSpinner();
+    fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
@@ -180,23 +181,29 @@ async function updateBin(arr){
             "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
         },
         body: JSON.stringify({"my-todo": arr}),
-    })
-    console.log("the put arr:", res);
+    }).then((res) => {
+        if(!res.ok)
+        throw new Error("the error is: ", res);
+        showSpinner();})
+        .catch((error) =>{
+        console.log("there was an error ", error);
+    });
 }
 //printing on load 
-async function printLoad(){
+function printLoad(){
     showSpinner();
     localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-    const getRes = await fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
+    fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
       method: 'GET',
       headers: {
         "Content-Type": "application/json" 
       },  
-    } )
-    binArr = await getRes.json();
-    console.log("binArr: ", binArr.record["my-todo"]);
-    printArr(binArr.record["my-todo"]);
-    showSpinner();
+    } ).then((res) => { res.json().then((json) => {
+        printArr(json.record["my-todo"]);
+        showSpinner();
+    } ) } ).catch((error) =>{
+        console.log("the error is: ", error);
+    });;
 }
 //the spinner load func
 function showSpinner() {
@@ -225,7 +232,6 @@ function removeThisTask(text){
     for(let i=0; i<taskArr.length; i++){
         if(taskArr[i].text === text){
             lastRemove = taskArr.splice(i, 1);
-            console.log("newArr:", taskArr);
         }
     }
     localStorage.setItem("lastRemove", JSON.stringify(lastRemove));
