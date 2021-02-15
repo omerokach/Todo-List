@@ -1,7 +1,6 @@
-  
 // when refresh it take the info from the local storage
-window.addEventListener("DOMContentLoaded",(e) =>{
-    printLoad();
+window.addEventListener("DOMContentLoaded", async (e) =>{
+    await printLoad();
 });
 //
 
@@ -26,7 +25,7 @@ reset.addEventListener("click", doReset);
 undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
-function doAdd(){
+async function doAdd(){
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
     const remove = document.createElement("button");
     remove.classList.add("remove");
@@ -113,7 +112,7 @@ function doSort(){
     }   
 }
 // the reset function
-function doReset(){
+async function doReset(){
     let answer = confirm("are you sure you want to reset all?");
     if(answer){
     let todoList =  [];
@@ -170,51 +169,6 @@ function printArr(arr){
         viewSection.append(container);
     }
 }
-// PUT fetch to the bin with the latest info
-// function updateBin(arr){
-//     showSpinner();
-//     fetch(`https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720`,{
-//         method: 'PUT',
-//         headers: {
-//             "Content-Type": "application/json",
-//             "X-Bin-Versioning": true, 
-//             "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
-//         },
-//         body: JSON.stringify({"my-todo": arr}),
-//     }).then((res) => {
-//         if(!res.ok)
-//         throw new Error("the error is: ", res);
-//         showSpinner();})
-//         .catch((error) =>{
-//         console.log("there was an error ", error);
-//     });
-// }
-// //printing on load 
-// function printLoad(){
-//     showSpinner();
-//     localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-//     fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
-//       method: 'GET',
-//       headers: {
-//         "Content-Type": "application/json" 
-//       },  
-//     } ).then((res) => { res.json().then((json) => {
-//         printArr(json.record["my-todo"]);
-//         showSpinner();
-//     } ) } ).catch((error) =>{
-//         console.log("the error is: ", error);
-//     });;
-// }
-//the spinner load func
-function showSpinner() {
-  if(loader.style.visibility === "visible"){
-    loader.style.visibility === "hidden"
-  }
-  loader.style.visibility = "visible";
-  setTimeout(() => {
-    loader.style.visibility = loader.style.visibility.replace("visible", "hidden");
-  }, 1500);
-}
 //remove function
 function doRemove(e) {
   let answer = confirm("Are you sure you want to remove this task?");
@@ -235,6 +189,7 @@ function removeThisTask(text){
     for(let i=0; i<taskArr.length; i++){
         if(taskArr[i].text === text){
             lastRemove = taskArr.splice(i, 1);
+            console.log("newArr:", taskArr);
         }
     }
     localStorage.setItem("lastRemove", JSON.stringify(lastRemove));

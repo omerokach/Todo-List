@@ -1,28 +1,11 @@
-const API_KEY = ''; // Assign this variable to your JSONBIN.io API key if you choose to use it.
+const API_KEY = '601840815415b40ac220e352'; // Assign this variable to your JSONBIN.io API key if you choose to use it.
 const DB_NAME = "my-todo";
 
 
-function printLoad(){
+// PUT fetch to the bin with the latest info
+async function updateBin(arr){
   showSpinner();
-  localStorage.setItem("binID" , '601414a21de5467ca6bdd720');
-  fetch( `https://api.jsonbin.io/v3/b/601414a21de5467ca6bdd720/latest` ,{
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json" 
-    },  
-  } ).then((res) => { res.json().then((json) => {
-      printArr(json.record["my-todo"]);
-      showSpinner();
-  } ) } ).catch((error) =>{
-      console.log("the error is: ", error);
-  });;
-}
-
-// Saves the given data into persistent storage by the given key.
-// Returns 'true' on success.
-function updateBin(arr){
-  showSpinner();
-  fetch(`https://api.jsonbin.io/v/b/601414a21de5467ca6bdd720`,{
+  try { const res = await fetch(`https://api.jsonbin.io/v3/b/${API_KEY}`,{
       method: 'PUT',
       headers: {
           "Content-Type": "application/json",
@@ -30,18 +13,34 @@ function updateBin(arr){
           "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
       },
       body: JSON.stringify({"my-todo": arr}),
-  }).then((res) => {
-      if(!res.ok){
-      alert("there was a network error, info didn't saved")
-      throw new Error("the error is: ", res);
-      }
-      showSpinner();})
-      .catch((error) =>{
-      console.log("there was an error ", error);
-  });
+  })} catch{
+    alert("there was an error, the task didn't saved")
+    showSpinner();
+  }
+  showSpinner();
 }
+//printing on load 
+async function printLoad(){
+  showSpinner();
+  localStorage.setItem("binID" , `${API_KEY}`);
+  try { const getRes = await fetch( `https://api.jsonbin.io/v3/b/${API_KEY}/latest` ,{
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json" 
+    },  
+  } )
+  binArr = await getRes.json();
+  console.log("binArr: ", binArr.record["my-todo"]);
+  printArr(binArr.record["my-todo"]);
+  showSpinner();
+  } catch{
+    alert("there was an error, the task didn't saved")
+    showSpinner();
+  }
+}
+//the spinner load func
 function showSpinner() {
   if(loader.style.visibility === "visible"){
-    loader.style.visibility.replace("visible", "hidden");
-  }else loader.style.visibility.replace("hidden", "visible");
+    loader.style.visibility = "hidden";
+  }else loader.style.visibility = "visible";
 }
