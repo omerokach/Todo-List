@@ -8,8 +8,21 @@ const PORT =3000;
 app.use(express.json());
 
 app.get('/b', (req, res) => {
-
-})
+    let files = [];
+    const objects = fs.readdirSync('./src/backend/database');
+    if(objects.length === 0){
+        res.send('you have no objects');
+    } else{
+            try {
+                for( let object of objects){
+                    files.push(JSON.parse(fs.readFileSync(`./src/backend/database/${object}`)));
+                }
+                res.send(files);
+            } catch (error) {
+                res.send('you have an error' + error);
+            }
+        }
+});
 
 app.get('/b/:id', (req,res) => {
     fs.readFile(`./src/backend/database/${req.params.id}.json` ,(err, data) =>{
