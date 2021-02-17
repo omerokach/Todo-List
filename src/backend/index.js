@@ -29,7 +29,7 @@ app.get('/b', (req, res) => {
 app.get('/b/:id', (req,res) => {
     if(fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
         res.status(400).send(`{
-            "massage": "Invalid Bin Id provided"
+            "message": "Invalid Bin Id provided"
         }`);
     }else {
         fs.readFile(`./src/backend/database/${req.params.id}.json` ,(err, data) =>{
@@ -48,7 +48,7 @@ app.put('/b/:id', (req, res) =>{
     body.id = req.params.id;
     if(fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
         res.status(400).send(`{
-            "massage": "Invalid Bin Id provided"
+            "message": "Invalid Bin Id provided"
         }`);
     } else {
         fs.writeFile(`./src/backend/database/${req.params.id}.json`, JSON.stringify(body, null, 4), (err) =>{
@@ -67,7 +67,7 @@ app.post('/b', (req, res) =>{
     const id = uuid.v4();
     if(Object.keys(body).length === 0){
         res.status(400).send(`{
-            "massage": "Bin cannot be blank"
+            "message": "Bin cannot be blank"
         }`)
     }
     body.id = id;
