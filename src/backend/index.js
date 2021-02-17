@@ -83,14 +83,21 @@ app.post('/b', (req, res) =>{
 //deleting specific file by id
 app.delete('/b/:id', (req, res) =>{
     const id = req.params.id;
-    fs.unlink(`./src/backend/database/${id}.json`, (err) =>{
-        if(err){
-            res.status(500).send('there is a problem with the server '+err);
-        } else{
-            res.status(200).send('success');
-        }
-    } );
- } );
+    if(!fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
+        res.status(400).send(`{
+            "message": "Bid id not found"
+        }`);
+    } else {
+        fs.unlink(`./src/backend/database/${id}.json`, (err) =>{
+            if(err){
+                res.status(500).send('there is a problem with the server '+err);
+            } else{
+                res.status(200).send('success');
+            }
+        } );
+     } } );    
+    
+   
 
  app.listen(PORT);
  console.log(`listening to ${PORT}`);
