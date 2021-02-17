@@ -48,7 +48,7 @@ app.put('/b/:id', (req, res) =>{
     body.id = req.params.id;
     if(!fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
         res.status(400).send(`{
-            "message": "Invalid Bin Id provided"
+            "message": "Bid id not found"
         }`);
     } else {
         fs.writeFile(`./src/backend/database/${req.params.id}.json`, JSON.stringify(body, null, 4), (err) =>{
