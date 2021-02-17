@@ -5,7 +5,7 @@ const DB_NAME = "my-todo";
 // PUT fetch to the bin with the latest info
 async function updateBin(arr){
   showSpinner();
-  try { const res = await fetch(`https://api.jsonbin.io/v3/b/${API_KEY}`,{
+  try { const res = await fetch(`http://localhost:3000/b/${API_KEY}`,{
       method: 'PUT',
       headers: {
           "Content-Type": "application/json",
@@ -23,15 +23,15 @@ async function updateBin(arr){
 async function printLoad(){
   showSpinner();
   localStorage.setItem("binID" , `${API_KEY}`);
-  try { const getRes = await fetch( `https://api.jsonbin.io/v3/b/${API_KEY}/latest` ,{
+  try { const getRes = await fetch( `http://localhost:3000/b/${API_KEY}` ,{
     method: 'GET',
     headers: {
       "Content-Type": "application/json" 
     },  
   } )
   binArr = await getRes.json();
-  console.log("binArr: ", binArr.record["my-todo"]);
-  printArr(binArr.record["my-todo"]);
+  console.log(binArr);
+  printArr(binArr["my-todo"]);
   showSpinner();
   } catch{
     alert("there was an error, the task didn't saved")
