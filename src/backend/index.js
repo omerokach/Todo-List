@@ -27,7 +27,7 @@ app.get('/b', (req, res) => {
 
 // get a specific object by id
 app.get('/b/:id', (req,res) => {
-    if(fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
+    if(!fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
         res.status(400).send(`{
             "message": "Invalid Bin Id provided"
         }`);
@@ -46,7 +46,7 @@ app.get('/b/:id', (req,res) => {
 app.put('/b/:id', (req, res) =>{
     const {body} = req;
     body.id = req.params.id;
-    if(fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
+    if(!fs.existsSync(`./src/backend/database/${req.params.id}.json`)){
         res.status(400).send(`{
             "message": "Invalid Bin Id provided"
         }`);

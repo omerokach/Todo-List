@@ -73,6 +73,17 @@ body{
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
   }
+  #contactLinkContainer{
+    display: flex;
+    position: absolute;
+    align-self: baseline;
+    justify-content: space-between;
+  }
+  .fab fa-facebook-f.fab fa-twitter.fab fa-github{
+      height: 10vh;
+      width: 10vw;
+      
+  }
   
   /* Safari */
   @-webkit-keyframes spin {
