@@ -13,7 +13,9 @@ async function updateBin(arr){
           "X-Master-Key": "$2b$10$w1piqKtT3h7v/fsuAVZjferrU.eP4x9ZpkAtxxytBDo9tYxNv8YMK" 
       },
       body: JSON.stringify({"my-todo": arr}),
-  })} catch{
+  })} catch(e){
+    console.log(res)
+    console.log(e);
     alert("there was an error, the task didn't saved")
     showSpinner();
   }
@@ -29,9 +31,9 @@ async function printLoad(){
       "Content-Type": "application/json" 
     },  
   } )
-  binArr = await getRes.json();
-  console.log(binArr);
-  printArr(binArr["my-todo"]);
+  const binArr = await getRes.json();
+  console.log(binArr.data);
+  printArr(binArr.data["my-todo"]);
   showSpinner();
   } catch{
     alert("there was an error, the task didn't saved")

@@ -1,8 +1,6 @@
 const uuid = require('uuid');
-const { response } = require('express');
 const express = require('express');
 const fs = require('fs');
-const { request } = require('http');
 const app = express();
 const PORT =3000;
 app.use(express.json());
@@ -18,7 +16,12 @@ app.get('/b', (req, res) => {
                 for( let object of objects){
                     files.push(JSON.parse(fs.readFileSync(`./src/backend/database/${object}`)));
                 }
-                res.status(200).send(files);
+                const successMessage = {
+                    success: true,
+                    data: files,
+                    "version": 1,
+                }
+                res.status(200).send(successMessage);
             } catch (error) {
                 res.status(500).send('there is a problem with the server ' + error);
             }
@@ -36,7 +39,15 @@ app.get('/b/:id', (req,res) => {
         if(err){
             res.status(500).send('there is a problem with the server '+ err)
         } else{
-            res.status(200).send(data);
+            const body = JSON.parse(data);
+            const successMessage = {
+                success: true,
+                data: body,
+                "version": 1,
+                "parentId": req.params.id
+            }
+            
+            res.status(200).send(successMessage);
         }
     })
     };
@@ -55,7 +66,13 @@ app.put('/b/:id', (req, res) =>{
         if(err){
             res.status(500).send('there is a problem with the server '+ err);
         } else{
-            res.status(200).send(body);
+            const successMessage = {
+                success: true,
+                data: body,
+                "version": 1,
+                "parentId": req.params.id
+            }
+            res.status(200).send(successMessage);
         }
     })
     };
@@ -75,7 +92,14 @@ app.post('/b', (req, res) =>{
         if(err){
             res.status(500).send("there is a problem with the server "+err)
         } else{
-            res.status(200).send(body);
+            const successMessage = {
+                success: true,
+                data: body,
+                "version": 1,
+                "parentId": id
+            }
+            
+            res.status(200).send(successMessage);
         }
     });
 });
