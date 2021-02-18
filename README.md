@@ -2,7 +2,7 @@
 
 # this is my first final project of Scale-Up Velocity Course for web dev, so here are some of my skills at the beginning of the way.
   
-## boilerplate: here is a link- [website]https://omerokach.github.io/pre-course-2021-final-boilerplate/src/index
+## boilerplate: here is a link- [website](https://omerokach.github.io/pre-course-2021-final-boilerplate/src/index)
 - A todo-list application for keeping your tasks not only in mind but also hard on the web, clean, organized and comfortable way.
    ## features: 
    - remove 
