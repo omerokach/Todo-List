@@ -26,6 +26,11 @@ undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
 async function doAdd(){
+    if(!input.value){
+        alert("task cannot be blank");
+        input.value = '';
+        return;
+    }
     let taskObj = {text:'' ,date:'' ,priority:'' ,};
     const remove = document.createElement("button");
     remove.classList.add("remove");
