@@ -1,10 +1,11 @@
 const uuid = require('uuid');
 const express = require('express');
 const fs = require('fs');
+var delay = require('express-delay');
 const app = express();
 const PORT =3000;
 app.use(express.json());
-
+app.use(delay(400));
  // get all the objects
 app.get('/b', (req, res) => {
     let files = [];
