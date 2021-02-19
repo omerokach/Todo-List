@@ -1,6 +1,6 @@
 // when refresh it take the info from the local storage
-window.addEventListener("DOMContentLoaded", async (e) =>{
-    await printLoad();
+window.addEventListener("DOMContentLoaded",  (e) =>{
+    printLoad();
 });
 //
 
@@ -25,7 +25,7 @@ reset.addEventListener("click", doReset);
 undoButton.addEventListener("click", undo);
 ///================functions=================
 // the add event function ,add and updating the local storage the counter and tasks 
-async function doAdd(){
+function doAdd(){
     if(!input.value){
         alert("task cannot be blank");
         input.value = '';
@@ -117,7 +117,7 @@ function doSort(){
     }   
 }
 // the reset function
-async function doReset(){
+function doReset(){
     let answer = confirm("are you sure you want to reset all?");
     if(answer){
     let todoList =  [];
