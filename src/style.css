@@ -74,15 +74,14 @@ body{
     animation: spin 2s linear infinite;
   }
   #contactLinkContainer{
+    position: fixed;
+    right: 0;
     display: flex;
-    position: absolute;
-    align-self: baseline;
-    justify-content: space-between;
+    align-self: right;
   }
-  .fab fa-facebook-f.fab fa-twitter.fab fa-github{
-      height: 10vh;
-      width: 10vw;
-      
+  .fab{
+    font-size: 3em;
+    margin: 1rem;
   }
   
   /* Safari */
@@ -103,4 +102,16 @@ body{
     .left, .main, .right {
       width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
     }
+    #contactLinkContainer{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        align-self: baseline;
+        justify-content: space-between;
+      }
+      .fab{
+        height: 20vh;
+        width: 20vw;
+      }
+      
   }
